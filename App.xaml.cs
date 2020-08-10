@@ -36,8 +36,11 @@
 
             // Process オブジェクトを作成
             this.Apache = new Process();
+
             // 実行するファイル
             this.Apache.StartInfo.FileName = this.CurrentFolder + "\\bin\\Apache\\bin\\httpd.exe";
+            // 引数
+            this.Apache.StartInfo.Arguments = "-e debug";
             // 作業フォルダ
             this.Apache.StartInfo.WorkingDirectory = this.CurrentFolder + "\\bin\\Apache\\bin";
             // コンソールウインドウを開くか
@@ -46,16 +49,19 @@
             this.Apache.StartInfo.UseShellExecute = false;
             // 出力をストリームに書き込む
             this.Apache.StartInfo.RedirectStandardOutput = true;
+            this.Apache.StartInfo.RedirectStandardError = true;
             this.Apache.StartInfo.RedirectStandardInput = false;
 
             // イベントハンドラーを登録
             this.Apache.OutputDataReceived += OnOutputDataReceived;
+            this.Apache.ErrorDataReceived += OnErrorDataReceived;
 
             // Apache を起動
             this.Apache.Start();
 
             //非同期で出力の読み取りを開始
             this.Apache.BeginOutputReadLine();
+            this.Apache.BeginErrorReadLine();
         }
 
         /// <summary>
@@ -69,13 +75,14 @@
 
             Debug.WriteLine("Event: OnExit");
 
-			// Apache を（強制的に）終了
 			try
             {
+                // Apache を（強制的に）終了
                 this.Apache.Kill();
             }
 			catch (InvalidOperationException exception)
 			{
+                // Apache がエラーなどで既に終了している場合にスローされる
                 Debug.WriteLine("Error: " + exception.Message);
             }
         }
@@ -87,6 +94,17 @@
         protected void OnOutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             // 出力された文字列を表示する
+            Debug.WriteLine("Apache: " + e.Data);
+        }
+
+        /// <summary>
+        /// System.Diagnostics.Process.ErrorDataReceived のイベントハンドラー。 
+        // エラー行が出力されるたびに呼び出されます。
+        /// </summary>
+        protected void OnErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            // 出力された文字列を表示する
+            // 本来はエラーのみ出力されるはずだが Apache の場合はなぜか普通のメッセージも入る
             Debug.WriteLine("Apache: " + e.Data);
         }
     }
