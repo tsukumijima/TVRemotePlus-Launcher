@@ -15,14 +15,27 @@ using System.Windows.Shapes;
 
 namespace TVRemotePlus_Launcher
 {
+
 	/// <summary>
 	/// MainWindow.xaml の相互作用ロジック
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		
+		private List<string> Log;
+
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			// Apache の起動ログを取得
+			this.Log = (List<string>) Application.Current.Properties["Log"];
+
+			// ListBox に追加
+			foreach (var Item in this.Log)
+			{
+				ListBox.Items.Add(Item);
+			}
 		}
 	}
 }

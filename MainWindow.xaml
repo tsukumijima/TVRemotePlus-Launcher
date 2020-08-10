@@ -4,9 +4,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TVRemotePlus_Launcher"
-        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="Segoe UI, BIZ UDPGothic, メイリオ"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="18"
         Title="TVRemotePlus-Launcher" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <dragablz:TabablzControl FixedHeaderCount="1" ConsolidateOrphanedItems="True">
+        <TabItem Header="ログ">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <ListBox Name="ListBox"
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        Padding="18, 12"
+                        FontFamily="Consolas, BIZ UDPGothic, メイリオ"
+                        FontWeight="Bold"
+                        FontSize="13"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                </ListBox>
+            </Grid>
+        </TabItem>
+    </dragablz:TabablzControl>
 </Window>

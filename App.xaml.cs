@@ -5,17 +5,18 @@
     using System.Reflection;
     using System.IO;
     using System;
+	using System.Collections.ObjectModel;
+	using System.Collections.Generic;
 
-    /// <summary>
-    /// App.xaml の相互作用ロジック
-    /// 参考: https://garafu.blogspot.com/2015/06/dev-tasktray-residentapplication.html
-    /// </summary>
-    public partial class App : Application
+	/// <summary>
+	/// App.xaml の相互作用ロジック
+	/// 参考: https://garafu.blogspot.com/2015/06/dev-tasktray-residentapplication.html
+	/// </summary>
+	public partial class App : Application
     {
-        /// <summary>
-        /// タスクトレイに表示するアイコン
-        /// </summary>
+    
         private NotifyIconWrapper notifyIcon;
+        private List<string> Log;
         private Process Apache;
         private string CurrentFolder;
 
@@ -30,6 +31,9 @@
             this.notifyIcon = new NotifyIconWrapper();
 
             Debug.WriteLine("Event: OnStartup");
+
+            // ログのコレクションを作成
+            this.Log = new List<string>();
 
             // 現在のフォルダを取得
             this.CurrentFolder = Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName;
@@ -94,7 +98,16 @@
         protected void OnOutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             // 出力された文字列を表示する
-            Debug.WriteLine("Apache: " + e.Data);
+            Debug.WriteLine("Apache: ((" + e.Data + "))");
+
+            // ログを追加
+            if (e.Data != "" && e.Data != null) // 空でないなら
+            {
+                this.Log.Add(e.Data);
+            }
+
+            // ログを全てのページで見られるように保存
+            Application.Current.Properties["Log"] = this.Log;
         }
 
         /// <summary>
@@ -105,7 +118,16 @@
         {
             // 出力された文字列を表示する
             // 本来はエラーのみ出力されるはずだが Apache の場合はなぜか普通のメッセージも入る
-            Debug.WriteLine("Apache: " + e.Data);
+            Debug.WriteLine("Apache: ((" + e.Data + "))");
+
+            // ログを追加
+            if (e.Data != "" && e.Data != null) // 空でないなら
+            {
+                this.Log.Add(e.Data);
+            }
+
+            // ログを全てのページで見られるように保存
+            Application.Current.Properties["Log"] = this.Log;
         }
     }
 }
