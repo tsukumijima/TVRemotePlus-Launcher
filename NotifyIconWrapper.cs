@@ -1,4 +1,4 @@
-﻿namespace TVRemotePlus_Launcher
+namespace TVRemotePlus_Launcher
 {
     using System;
     using System.ComponentModel;
@@ -20,6 +20,8 @@
 
             // コンテキストメニューのイベントを設定
             this.toolStripMenuItem_Open.Click += this.toolStripMenuItem_Open_Click;
+            this.toolStripMenuItem_Access.Click += this.toolStripMenuItem_Access_Click;
+            this.toolStripMenuItem_Access_HTTPS.Click += this.toolStripMenuItem_Access_HTTPS_Click;
             this.toolStripMenuItem_Exit.Click += this.toolStripMenuItem_Exit_Click;
         }
 
@@ -35,7 +37,29 @@
         }
 
         /// <summary>
-        /// コンテキストメニュー "サーバー設定…" を選択したとき呼ばれます。
+        /// コンテキストメニュー "TVRemotePlus にアクセス" を選択したとき呼ばれます。
+        /// </summary>
+        /// <param name="sender">呼び出し元オブジェクト</param>
+        /// <param name="e">イベントデータ</param>
+        private void toolStripMenuItem_Access_Click(object sender, EventArgs e)
+        {
+            // Web ページを開く
+            System.Diagnostics.Process.Start("http://" + Application.Current.Properties["ServerIP"] + ":" + Application.Current.Properties["ServerHTTPPort"] + "/");
+        }
+
+        /// <summary>
+        /// コンテキストメニュー "TVRemotePlus にアクセス (HTTPS)" を選択したとき呼ばれます。
+        /// </summary>
+        /// <param name="sender">呼び出し元オブジェクト</param>
+        /// <param name="e">イベントデータ</param>
+        private void toolStripMenuItem_Access_HTTPS_Click(object sender, EventArgs e)
+        {
+            // Web ページを開く
+            System.Diagnostics.Process.Start("https://" + Application.Current.Properties["ServerIP"] + ":" + Application.Current.Properties["ServerHTTPSPort"] + "/");
+        }
+
+        /// <summary>
+        /// コンテキストメニュー "TVRemotePlus サーバー設定" を選択したとき呼ばれます。
         /// </summary>
         /// <param name="sender">呼び出し元オブジェクト</param>
         /// <param name="e">イベントデータ</param>
