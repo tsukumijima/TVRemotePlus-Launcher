@@ -39,10 +39,10 @@ namespace TVRemotePlus_Launcher
             // ListBox にログを追加
             if (this.Log != null) // null でないなら
             {
+                // ListBox.Items.Add("TestLog TestLog TestLog TestLog");
                 foreach (var Item in this.Log)
                 {
                     ListBox.Items.Add(Item);
-                    // ListBox.Items.Add("TestLog TestLog TestLog TestLog");
                 }
             }
         }

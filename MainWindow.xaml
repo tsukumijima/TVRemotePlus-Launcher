@@ -30,7 +30,7 @@
         </DataTemplate>
     </Controls:MetroWindow.IconTemplate>
 
-    <Dragablz:TabablzControl FixedHeaderCount="1" ConsolidateOrphanedItems="True">
+    <Dragablz:TabablzControl FixedHeaderCount="1" ConsolidateOrphanedItems="True" TextOptions.TextFormattingMode="Ideal">
         <TabItem>
             <TabItem.Header>
                 <StackPanel Orientation="Horizontal" Margin="30, 0">
@@ -38,31 +38,12 @@
                     <TextBlock Text="ログ" Foreground="{DynamicResource MaterialDesignPaper}" Margin="0, 0, 5, 0" />
                 </StackPanel>
             </TabItem.Header>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-                <ListBox Name="ListBox"
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Padding="18, 12"
+            <ListBox Name="ListBox"
+                        Padding="20, 16"
                         FontFamily="Consolas, Meiryo"
                         FontWeight="Bold"
                         FontSize="13"
-                        TextOptions.TextFormattingMode="Ideal"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
                         ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
-            </Grid>
         </TabItem>
         <TabItem>
             <TabItem.Header>
