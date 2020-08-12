@@ -12,7 +12,7 @@
         FontFamily="Segoe UI, Meiryo"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
-        TextElement.FontSize="18"
+        TextElement.FontSize="19"
         
         Title="TVRemotePlus-Launcher" Height="450" Width="800"
         TitleCharacterCasing="Normal"
@@ -21,8 +21,23 @@
         GlowBrush="{DynamicResource WindowTitleColorBrush}"
         EnableDWMDropShadow ="True"
         WindowTransitionsEnabled="True"
-        SaveWindowPosition="True"
-        TextOptions.TextFormattingMode="Display">
+        TextOptions.TextFormattingMode="Display"
+        SaveWindowPosition="True">
+
+    <Window.Resources>
+        <ContextMenu x:Key="ListBoxMenu">
+            <MenuItem Click="CopyClipboard">
+                <MenuItem.Icon>
+                    <Image Source="Resources/Clipboard.png"/>
+                </MenuItem.Icon>
+                <MenuItem.Header>
+                    <TextBlock FontFamily="Segoe UI, Meiryo" FontSize="14">
+                        クリップボードにコピー
+                    </TextBlock>
+                </MenuItem.Header>
+            </MenuItem>
+        </ContextMenu>
+    </Window.Resources>
 
     <Controls:MetroWindow.IconTemplate>
         <DataTemplate>
@@ -31,6 +46,101 @@
     </Controls:MetroWindow.IconTemplate>
 
     <Dragablz:TabablzControl FixedHeaderCount="1" ConsolidateOrphanedItems="True" TextOptions.TextFormattingMode="Ideal">
+        <TabItem IsSelected="True">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal" Margin="30, 0">
+                    <Image Source="./Resources/Settings.png" Margin="0, 2, 12, 2"/>
+                    <TextBlock Text="設定" Foreground="{DynamicResource MaterialDesignPaper}" Margin="0, 0, 5, 0" />
+                </StackPanel>
+            </TabItem.Header>
+            <Grid Margin="20, 25" TextElement.FontSize="17">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="TVRemotePlus のルートフォルダ" Width="300">
+                            <Label.ToolTip>
+                                <TextBlock>
+                                    TVRemotePlus をインストールしたフォルダを指定します。<LineBreak/>
+                                    このうち、ドキュメントルートとして公開されるのは<LineBreak/>
+                                    インストールしたフォルダ内の htdocs/ フォルダです。
+                                </TextBlock>
+                            </Label.ToolTip>
+                        </Label>
+                        <TextBox Name="ServerRoot" Width="600" Padding="10, 0"
+                                 Style="{StaticResource MaterialDesignTextBox}"
+                                 MaterialDesign:HintAssist.HintOpacity="0.5" >
+                            <MaterialDesign:HintAssist.Hint>
+                                <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
+                                    <TextBlock Width="400">C:/DTV/TVRemotePlus</TextBlock>
+                                </StackPanel>
+                            </MaterialDesign:HintAssist.Hint>
+                        </TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0, 20, 0, 0">
+                        <Label Content="サーバーのローカル IP アドレス" Width="300">
+                            <Label.ToolTip>
+                                <TextBlock>
+                                    TVRemotePlus をインストールしている PC のローカル IP アドレス<LineBreak />
+                                    （通常は 192.168. から始まるアドレス）を指定します。
+                                </TextBlock>
+                            </Label.ToolTip>
+                        </Label>
+                        <TextBox Name="ServerIP" Width="600" Padding="10, 0"
+                                 Style="{StaticResource MaterialDesignTextBox}"
+                                 MaterialDesign:HintAssist.HintOpacity="0.5" >
+                            <MaterialDesign:HintAssist.Hint>
+                                <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
+                                    <TextBlock Width="200">192.168.1.11</TextBlock>
+                                </StackPanel>
+                            </MaterialDesign:HintAssist.Hint>
+                        </TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0, 20, 0, 0">
+                        <Label Content="サーバーの HTTP ポート" Width="300">
+                            <Label.ToolTip>
+                                <TextBlock>
+                                    サーバーの HTTP 用のポートを指定します。デフォルトは 8000 です。
+                                </TextBlock>
+                            </Label.ToolTip>
+                        </Label>
+                        <TextBox Name="ServerHTTPPort" Width="600" Padding="10, 0"
+                                 Style="{StaticResource MaterialDesignTextBox}"
+                                 MaterialDesign:HintAssist.HintOpacity="0.5" >
+                            <MaterialDesign:HintAssist.Hint>
+                                <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
+                                    <TextBlock Width="100">8000</TextBlock>
+                                </StackPanel>
+                            </MaterialDesign:HintAssist.Hint>
+                        </TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0, 20, 0, 0">
+                        <Label Content="サーバーの HTTPS ポート" Width="300">
+                            <Label.ToolTip>
+                                <TextBlock>
+                                    サーバーの HTTPS 用のポートを指定します。デフォルトは 8100 です。<LineBreak />
+                                    TVRemotePlus に HTTPS で アクセスする場合は、別途端末に<LineBreak />
+                                    自己署名証明書をインポートしておく必要があります。
+                                </TextBlock>
+                            </Label.ToolTip>
+                        </Label>
+                        <TextBox Name="ServerHTTPSPort" Width="600" Padding="10, 0"
+                                 Style="{StaticResource MaterialDesignTextBox}"
+                                 MaterialDesign:HintAssist.HintOpacity="0.5" >
+                            <MaterialDesign:HintAssist.Hint>
+                                <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
+                                    <TextBlock Width="100">8100</TextBlock>
+                                </StackPanel>
+                            </MaterialDesign:HintAssist.Hint>
+                        </TextBox>
+                    </StackPanel>
+                </StackPanel>
+                <Label Margin="0, 40, 0, 0" VerticalAlignment="Bottom" >
+                    <TextBlock>
+                        ※現時点ではこの画面での設定変更はできません。TVRemotePlus をインストールした<LineBreak />
+                        　フォルダの bin/Apache/conf/httpd.conf を手動で編集してください。
+                    </TextBlock>
+                </Label>
+            </Grid>
+        </TabItem>
         <TabItem>
             <TabItem.Header>
                 <StackPanel Orientation="Horizontal" Margin="30, 0">
@@ -38,21 +148,16 @@
                     <TextBlock Text="ログ" Foreground="{DynamicResource MaterialDesignPaper}" Margin="0, 0, 5, 0" />
                 </StackPanel>
             </TabItem.Header>
-            <ListBox Name="ListBox"
-                        Padding="20, 16"
-                        FontFamily="Consolas, Meiryo"
-                        FontWeight="Bold"
-                        FontSize="13"
-                        ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
-        </TabItem>
-        <TabItem>
-            <TabItem.Header>
-                <StackPanel Orientation="Horizontal" Margin="30, 0">
-                    <Image Source="./Resources/Settings.png" Margin="0, 2, 12, 2"/>
-                    <TextBlock Text="設定" Foreground="{DynamicResource MaterialDesignPaper}" Margin="0, 0, 5, 0" />
-                </StackPanel>
-            </TabItem.Header>
             <Grid>
+                <ListBox Name="ListBox"
+                         SelectionMode="Extended"
+                         ContextMenu="{DynamicResource ListBoxMenu}"
+                         Padding="20, 16"
+                         FontFamily="Consolas, Meiryo"
+                         FontWeight="Bold"
+                         FontSize="13"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
             </Grid>
         </TabItem>
     </Dragablz:TabablzControl>

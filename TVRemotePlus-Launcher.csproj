@@ -157,19 +157,22 @@
     <Resource Include="Resources\TVRemotePlus-Launcher.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TVRemotePlus-Menu.png" />
+    <Resource Include="Resources\TVRemotePlus-Menu.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Settings-Menu.png" />
+    <Resource Include="Resources\Settings-Menu.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Exit-Menu.png" />
+    <Resource Include="Resources\Exit-Menu.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Settings.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Log.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Clipboard.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

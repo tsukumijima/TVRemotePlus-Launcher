@@ -36,10 +36,18 @@ namespace TVRemotePlus_Launcher
             this.Log = (ObservableCollection<string>) Application.Current.Properties["Log"];
             this.Log.CollectionChanged += OnLogChanged;
 
+            // コントロールに設定状態を表示
+            ServerRoot.Text = (string) Application.Current.Properties["ServerRoot"];
+            ServerIP.Text = (string)Application.Current.Properties["ServerIP"];
+            ServerHTTPPort.Text = (string)Application.Current.Properties["ServerHTTPPort"];
+            ServerHTTPSPort.Text = (string)Application.Current.Properties["ServerHTTPSPort"];
+
+            // ListBox コレクションが変更されたときのイベント
+            ((INotifyCollectionChanged) this.ListBox.Items).CollectionChanged += this.OnListBoxCollectionChanged;
+
             // ListBox にログを追加
             if (this.Log != null) // null でないなら
             {
-                // ListBox.Items.Add("TestLog TestLog TestLog TestLog");
                 foreach (var Item in this.Log)
                 {
                     ListBox.Items.Add(Item);
@@ -48,10 +56,54 @@ namespace TVRemotePlus_Launcher
         }
 
         /// <summary>
-        /// System.Collections.ObjectModel.ObservableCollection.CollectionChanged のイベントハンドラー。 
-        // ログが変更されたときに呼び出されます。
+        /// 選択されているリストをクリップボードにコピーします。
+        /// ListBox 内のリストを右クリック後、コンテキストメニューで
+        /// 「クリップボードにコピー」をクリックしたときに呼び出されます。
         /// </summary>
-        private void OnLogChanged (object sender, NotifyCollectionChangedEventArgs e)
+        private void CopyClipboard(object sender, RoutedEventArgs e)
+        {
+            // 何か選択されていれば
+            if (ListBox.SelectedIndex != -1)
+            {
+                string items = "";
+				for (int i = 0; i < ListBox.SelectedItems.Count; i++)
+				{
+					if (i != (ListBox.SelectedItems.Count - 1))
+					{
+						items += ListBox.SelectedItems[i].ToString() + "\r\n";
+					}
+					else
+					{
+						// 最後の行は改行なし
+						items += ListBox.SelectedItems[i].ToString();
+					}
+				}
+
+                // クリップボードにコピー
+                Clipboard.SetText(items);
+            }
+        }
+
+        /// <summary>
+        /// MainWindow.ListBox.CollectionChanged のイベントハンドラー。 
+        /// ListBox コレクションが変更されたときに呼び出されます。
+        /// 参考: https://qiita.com/naminodarie/items/ee7270ae4dae94424d68
+        /// </summary>
+        private void OnListBoxCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    this.ListBox.ScrollIntoView(this.ListBox.Items[e.NewStartingIndex]);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// System.Collections.ObjectModel.ObservableCollection.CollectionChanged のイベントハンドラー。 
+        /// ログが変更されたときに呼び出されます。
+        /// </summary>
+        private void OnLogChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             // 新しいログを追加
             var NewLog = e.NewItems;
