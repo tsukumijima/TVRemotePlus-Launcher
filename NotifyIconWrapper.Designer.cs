@@ -1,4 +1,4 @@
-﻿namespace TVRemotePlus_Launcher
+namespace TVRemotePlus_Launcher
 {
     partial class NotifyIconWrapper
     {
@@ -33,9 +33,9 @@
 			this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolStripMenuItem_Access = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem_Access_HTTPS = new System.Windows.Forms.ToolStripMenuItem();
-			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.toolStripMenuItem_Open = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem_Exit = new System.Windows.Forms.ToolStripMenuItem();
+			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.contextMenuStrip.SuspendLayout();
 			// 
 			// contextMenuStrip
@@ -63,13 +63,6 @@
 			this.toolStripMenuItem_Access_HTTPS.Size = new System.Drawing.Size(318, 26);
 			this.toolStripMenuItem_Access_HTTPS.Text = "TVRemotePlus にアクセス (HTTPS)";
 			// 
-			// notifyIcon
-			// 
-			this.notifyIcon.ContextMenuStrip = this.contextMenuStrip;
-			this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-			this.notifyIcon.Text = "TVRemotePlus-Launcher";
-			this.notifyIcon.Visible = true;
-			// 
 			// toolStripMenuItem_Open
 			// 
 			this.toolStripMenuItem_Open.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem_Open.Image")));
@@ -83,6 +76,13 @@
 			this.toolStripMenuItem_Exit.Name = "toolStripMenuItem_Exit";
 			this.toolStripMenuItem_Exit.Size = new System.Drawing.Size(318, 26);
 			this.toolStripMenuItem_Exit.Text = "サーバー (Apache) を終了";
+			// 
+			// notifyIcon
+			// 
+			this.notifyIcon.ContextMenuStrip = this.contextMenuStrip;
+			this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+			this.notifyIcon.Text = "TVRemotePlus-Launcher";
+			this.notifyIcon.Visible = true;
 			this.contextMenuStrip.ResumeLayout(false);
 
         }
