@@ -1,38 +1,78 @@
-﻿<Window x:Class="TVRemotePlus_Launcher.MainWindow"
+<Controls:MetroWindow x:Class="TVRemotePlus_Launcher.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TVRemotePlus_Launcher"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+        xmlns:MaterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:Dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+                      
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="Segoe UI, BIZ UDPGothic, メイリオ"
+        FontFamily="Segoe UI, Meiryo"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        TextElement.FontWeight="Medium"
+        TextElement.FontWeight="Regular"
         TextElement.FontSize="18"
-        Title="TVRemotePlus-Launcher" Height="450" Width="800">
-    <dragablz:TabablzControl FixedHeaderCount="1" ConsolidateOrphanedItems="True">
-        <TabItem Header="ログ">
+        
+        Title="TVRemotePlus-Launcher" Height="450" Width="800"
+        TitleCharacterCasing="Normal"
+        ShowIconOnTitleBar="True"
+        BorderBrush="{DynamicResource WindowTitleColorBrush}"
+        GlowBrush="{DynamicResource WindowTitleColorBrush}"
+        EnableDWMDropShadow ="True"
+        WindowTransitionsEnabled="True"
+        SaveWindowPosition="True"
+        TextOptions.TextFormattingMode="Display">
+
+    <Controls:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <Image Source="./Resources/TVRemotePlus-Transparent.ico" Margin="11, 0, 1, 0"  />
+        </DataTemplate>
+    </Controls:MetroWindow.IconTemplate>
+
+    <Dragablz:TabablzControl FixedHeaderCount="1" ConsolidateOrphanedItems="True">
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal" Margin="30, 0">
+                    <Image Source="./Resources/Log.png" Margin="0, 4, 12, 4"/>
+                    <TextBlock Text="ログ" Foreground="{DynamicResource MaterialDesignPaper}" Margin="0, 0, 5, 0" />
+                </StackPanel>
+            </TabItem.Header>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <ListBox Name="ListBox"
-                        Grid.Column="0"
                         Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
                         Padding="18, 12"
-                        FontFamily="Consolas, BIZ UDPGothic, メイリオ"
+                        FontFamily="Consolas, Meiryo"
                         FontWeight="Bold"
                         FontSize="13"
+                        TextOptions.TextFormattingMode="Ideal"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
-                        ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                </ListBox>
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
             </Grid>
         </TabItem>
-    </dragablz:TabablzControl>
-</Window>
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal" Margin="30, 0">
+                    <Image Source="./Resources/Settings.png" Margin="0, 2, 12, 2"/>
+                    <TextBlock Text="設定" Foreground="{DynamicResource MaterialDesignPaper}" Margin="0, 0, 5, 0" />
+                </StackPanel>
+            </TabItem.Header>
+            <Grid>
+            </Grid>
+        </TabItem>
+    </Dragablz:TabablzControl>
+</Controls:MetroWindow>
