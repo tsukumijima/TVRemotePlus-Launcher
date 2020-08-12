@@ -53,13 +53,13 @@
             // 自分自身と同じパスのプロセスを探す
             var count = 0;
             foreach (var process in processes)
-			{
+            {
                 // 自分自身と同じパスのプロセス
                 if (process.MainModule.FileName == this.CurrentFilePath)
                 {
                     if (count > 0) // 自分自身はカウントに含めない
                     {
-                        // エラーダイヤログ
+                        // エラーダイアログ
                         var dialog = new TaskDialog();
                         dialog.Caption = "エラー";
                         dialog.InstructionText = "同じサーバー (Apache) を複数起動することはできません";
@@ -73,8 +73,8 @@
                         return;
                     }
                     count++;
-				}
-			}
+                }
+            }
 
             // ---------- 起動処理 ----------
 
@@ -88,16 +88,16 @@
             string httpd_conf = sr.ReadToEnd();
 
             // Apache の設定を取得
+            // Apache のサーバールート
+            Application.Current.Properties["ServerRoot"] = Regex.Match(httpd_conf, @"Define SRVROOT\s""(?<SRVROOT>.*)""").Groups["SRVROOT"].Value;
+            // Apache の html ルート (/htdocs 付き)
+            Application.Current.Properties["DocumentRoot"] = Application.Current.Properties["ServerRoot"].ToString().TrimEnd('/') + Regex.Match(httpd_conf, @"DocumentRoot ""\$\{SRVROOT\}(?<FOLDER>.*)""").Groups["FOLDER"].Value;
             // Apache のローカル IP アドレス
             Application.Current.Properties["ServerIP"] = Regex.Match(httpd_conf, @"Define SRVIP\s""(?<SRVIP>.*)""").Groups["SRVIP"].Value;
             // Apache の HTTP ポート
             Application.Current.Properties["ServerHTTPPort"] = Regex.Match(httpd_conf, @"Define HTTP_PORT\s""(?<HTTP_PORT>.*)""").Groups["HTTP_PORT"].Value;
             // Apache の HTTPS ポート
             Application.Current.Properties["ServerHTTPSPort"] = Regex.Match(httpd_conf, @"Define HTTPS_PORT\s""(?<HTTPS_PORT>.*)""").Groups["HTTPS_PORT"].Value;
-            // Apache のサーバールート
-            Application.Current.Properties["ServerRoot"] = Regex.Match(httpd_conf, @"Define SRVROOT\s""(?<SRVROOT>.*)""").Groups["SRVROOT"].Value;
-            // Apache の html ルート (/htdocs 付き)
-            Application.Current.Properties["DocumentRoot"] = Application.Current.Properties["ServerRoot"].ToString().TrimEnd('/') + Regex.Match(httpd_conf, @"DocumentRoot ""\$\{SRVROOT\}(?<FOLDER>.*)""").Groups["FOLDER"].Value;
 
             Debug.WriteLine("ServerIP: " + Application.Current.Properties["ServerIP"]);
             Debug.WriteLine("ServerHTTPPort: " + Application.Current.Properties["ServerHTTPPort"]);
@@ -145,6 +145,10 @@
                 //非同期で出力の読み取りを開始
                 this.Apache.BeginOutputReadLine();
                 this.Apache.BeginErrorReadLine();
+
+
+                this.Log.Add("サーバー (Apache) を起動しました。 開始時刻: " + this.Apache.StartTime);
+                Application.Current.Properties["Log"] = this.Log;
             }
             catch (System.ComponentModel.Win32Exception Exception)
             {
@@ -152,7 +156,7 @@
                 Debug.WriteLine("Error: " + Exception.Message);
                 if (Exception.Message != "" && Exception.Message != null) // 空でないなら
                 {
-                    this.Log.Add("サーバー (Apache) を起動できませんでした: " + Exception.Message);
+                    this.Log.Add("サーバー (Apache) を起動できませんでした。 " + Exception.Message);
 
                     // ログを全てのページで見られるように保存
                     Application.Current.Properties["Log"] = this.Log;
@@ -231,11 +235,12 @@
         /// </summary>
         public void OnProcessExited(object sender, System.EventArgs e)
         {
-            Console.WriteLine(
+            Debug.WriteLine(
                 $"Exit time    : {this.Apache.ExitTime}\n" +
                 $"Exit code    : {this.Apache.ExitCode}\n" +
                 $"Elapsed time : {Math.Round((this.Apache.ExitTime - this.Apache.StartTime).TotalMilliseconds)}");
 
+            // エラーダイアログ
             var dialog = new TaskDialog();
             dialog.Caption = "エラー";
             dialog.InstructionText = "サーバー (Apache) が異常終了しました";
@@ -247,8 +252,8 @@
             // ログを全てのページで見られるように保存
             if (this.Log != null && Application.Current != null) // 正常終了時に行わない
             {
-                this.Log.Add("サーバー (Apache) が異常終了しました: 終了コード: " + this.Apache.ExitTime);
-                this.Log.Add("プロセス開始: " + this.Apache.StartTime + "  プロセス終了: " + this.Apache.ExitTime + "  " +
+                this.Log.Add("サーバー (Apache) が異常終了しました。 " + 
+                             "終了コード: " + this.Apache.ExitCode + " 終了時刻: " + this.Apache.ExitTime + " " +
                              "経過時間: " + Math.Round((this.Apache.ExitTime - this.Apache.StartTime).TotalMilliseconds) + "ms");
 
                 Application.Current.Properties["Log"] = this.Log;
