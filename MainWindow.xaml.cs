@@ -83,7 +83,7 @@ namespace TVRemotePlus_Launcher
                     }
                     else
                     {
-                        // 最後の行は改行なし
+                        // 最後の行は改行をつけない
                         items += ListBox.SelectedItems[i].ToString();
                     }
                 }

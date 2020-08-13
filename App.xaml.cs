@@ -214,18 +214,18 @@ namespace TVRemotePlus_Launcher
                 $"Exit code    : {this.Apache.ExitCode}\n" +
                 $"Elapsed time : {Math.Round((this.Apache.ExitTime - this.Apache.StartTime).TotalMilliseconds)}");
 
-            // エラーダイアログ
-            var dialog = new TaskDialog();
-            dialog.Caption = "エラー";
-            dialog.InstructionText = "サーバー (Apache) が異常終了しました";
-            dialog.Text = "サーバー (Apache) の設定を開き、ログを確認してください。";
-            dialog.Icon = TaskDialogStandardIcon.Error;
-            dialog.StandardButtons = TaskDialogStandardButtons.Ok;
-            dialog.Show();
-
             // ログを全てのページで見られるように保存
             if (this.Log != null && Application.Current != null) // 正常終了時に行わない
             {
+                // エラーダイアログ
+                var dialog = new TaskDialog();
+                dialog.Caption = "エラー";
+                dialog.InstructionText = "サーバー (Apache) が異常終了しました";
+                dialog.Text = "サーバー (Apache) の設定を開き、ログを確認してください。";
+                dialog.Icon = TaskDialogStandardIcon.Error;
+                dialog.StandardButtons = TaskDialogStandardButtons.Ok;
+                dialog.Show();
+
                 this.Log.Add("サーバー (Apache) が異常終了しました。 " + 
                              "終了コード: " + this.Apache.ExitCode + " 終了時刻: " + this.Apache.ExitTime + " " +
                              "経過時間: " + Math.Round((this.Apache.ExitTime - this.Apache.StartTime).TotalMilliseconds) + "ms");

@@ -83,7 +83,7 @@
                         <Label Content="サーバーのローカル IP アドレス" Width="300">
                             <Label.ToolTip>
                                 <TextBlock>
-                                    TVRemotePlus をインストールしている PC のローカル IP アドレス<LineBreak />
+                                    TVRemotePlus をインストールした PC のローカル IP アドレス<LineBreak />
                                     （通常は 192.168. から始まるアドレス）を指定します。
                                 </TextBlock>
                             </Label.ToolTip>
@@ -102,7 +102,7 @@
                         <Label Content="サーバーの HTTP ポート" Width="300">
                             <Label.ToolTip>
                                 <TextBlock>
-                                    サーバーの HTTP 用のポートを指定します。デフォルトは 8000 です。
+                                    サーバーの HTTP 用ポートを指定します。デフォルトは 8000 です。
                                 </TextBlock>
                             </Label.ToolTip>
                         </Label>
@@ -120,7 +120,7 @@
                         <Label Content="サーバーの HTTPS ポート" Width="300">
                             <Label.ToolTip>
                                 <TextBlock>
-                                    サーバーの HTTPS 用のポートを指定します。デフォルトは 8100 です。<LineBreak />
+                                    サーバーの HTTPS 用ポートを指定します。デフォルトは 8100 です。<LineBreak />
                                     TVRemotePlus に HTTPS で アクセスする場合は、別途端末に<LineBreak />
                                     自己署名証明書をインポートしておく必要があります。
                                 </TextBlock>
@@ -137,9 +137,9 @@
                         </TextBox>
                     </StackPanel>
                 </StackPanel>
-                <Label Margin="0, 40, 0, 0" VerticalAlignment="Bottom" >
+                <Label FontSize="16" Margin="0, 40, 0, 0" VerticalAlignment="Bottom" >
                     <TextBlock>
-                        ※現時点ではこの画面での設定変更はできません。TVRemotePlus をインストールした<LineBreak />
+                        ※現時点ではこの画面からの設定変更はできません。TVRemotePlus をインストールした<LineBreak />
                         　フォルダの bin/Apache/conf/httpd.conf を手動で編集してください。
                     </TextBlock>
                 </Label>

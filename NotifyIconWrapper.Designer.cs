@@ -54,7 +54,7 @@ namespace TVRemotePlus_Launcher
 			this.toolStripMenuItem_Access.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem_Access.Image")));
 			this.toolStripMenuItem_Access.Name = "toolStripMenuItem_Access";
 			this.toolStripMenuItem_Access.Size = new System.Drawing.Size(318, 26);
-			this.toolStripMenuItem_Access.Text = "TVRemotePlus へアクセス";
+			this.toolStripMenuItem_Access.Text = "TVRemotePlus にアクセス";
 			// 
 			// toolStripMenuItem_Access_HTTPS
 			// 
