@@ -26,11 +26,18 @@ namespace TVRemotePlus_Launcher
     public partial class MainWindow : MetroWindow
     {
         
+        // ログ
         private ObservableCollection<string> Log;
+
+        // リストをスクロールしたかのフラグ
+        // なぜか別のタブを開いてるとスクロールしてくれないので
+        private bool IsListScrolled = false;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            Debug.WriteLine("Event: OpenWindow");
 
             // App.xaml.cs で取得した Apache の起動ログ
             this.Log = (ObservableCollection<string>) Application.Current.Properties["Log"];
@@ -42,8 +49,10 @@ namespace TVRemotePlus_Launcher
             ServerHTTPPort.Text = (string)Application.Current.Properties["ServerHTTPPort"];
             ServerHTTPSPort.Text = (string)Application.Current.Properties["ServerHTTPSPort"];
 
+            TabControl.SelectionChanged += this.OnLogTabSelected;
+
             // ListBox コレクションが変更されたときのイベント
-            ((INotifyCollectionChanged) this.ListBox.Items).CollectionChanged += this.OnListBoxCollectionChanged;
+            ((INotifyCollectionChanged) ListBox.Items).CollectionChanged += this.OnListBoxCollectionChanged;
 
             // ListBox にログを追加
             if (this.Log != null) // null でないなら
@@ -66,21 +75,42 @@ namespace TVRemotePlus_Launcher
             if (ListBox.SelectedIndex != -1)
             {
                 string items = "";
-				for (int i = 0; i < ListBox.SelectedItems.Count; i++)
-				{
-					if (i != (ListBox.SelectedItems.Count - 1))
-					{
-						items += ListBox.SelectedItems[i].ToString() + "\r\n";
-					}
-					else
-					{
-						// 最後の行は改行なし
-						items += ListBox.SelectedItems[i].ToString();
-					}
-				}
+                for (int i = 0; i < ListBox.SelectedItems.Count; i++)
+                {
+                    if (i != (ListBox.SelectedItems.Count - 1))
+                    {
+                        items += ListBox.SelectedItems[i].ToString() + "\r\n";
+                    }
+                    else
+                    {
+                        // 最後の行は改行なし
+                        items += ListBox.SelectedItems[i].ToString();
+                    }
+                }
 
                 // クリップボードにコピー
                 Clipboard.SetText(items);
+            }
+        }
+
+        /// <summary>
+        /// 「ログ」タブが選択されたときに呼び出されます。
+        /// </summary>
+        private void OnLogTabSelected(object sender, EventArgs e)
+        {
+            // 選択されたタブの番号を取得
+            int selectedIndex = TabControl.SelectedIndex + 1;
+
+            if (selectedIndex == 2) // 「ログ」タブ
+            {
+                if (IsListScrolled == false) // まだリストをスクロールしていなかったら
+                {
+                    // ListBox をスクロール
+                    this.ListBox.ScrollIntoView(this.ListBox.Items[ListBox.Items.Count - 1]);
+
+                    // フラグを true に
+                    this.IsListScrolled = true; 
+                }
             }
         }
 
@@ -94,6 +124,7 @@ namespace TVRemotePlus_Launcher
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
+                    // ListBox をスクロール
                     this.ListBox.ScrollIntoView(this.ListBox.Items[e.NewStartingIndex]);
                     break;
             }
@@ -121,6 +152,15 @@ namespace TVRemotePlus_Launcher
                     }));
                 }
             }
+        }
+
+        /// <summary>
+        /// System.Windows.Window.Closing のイベントハンドラー。 
+        /// ウインドウが閉じられるときに呼び出されます。
+        /// </summary>
+        private void CloseWindow(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Debug.WriteLine("Event: CloseWindow");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace TVRemotePlus_Launcher
+namespace TVRemotePlus_Launcher
 {
     using System.Windows;
     using System.Diagnostics;
@@ -165,32 +165,6 @@
         }
 
         /// <summary>
-        /// System.Windows.Application.Exit イベント を発生させます。
-        /// </summary>
-        /// <param name="e">イベントデータ を格納している ExitEventArgs</param>
-        protected override void OnExit(ExitEventArgs e)
-        {
-            Debug.WriteLine("Event: OnExit");
-
-            base.OnExit(e);
-            if (this.notifyIcon != null && this.Apache != null)
-            {
-                this.notifyIcon.Dispose();
-
-                try
-                {
-                    // Apache を（強制的に）終了
-                    this.Apache.Kill();
-                }
-                catch (InvalidOperationException Exception)
-                {
-                    // Apache がエラーなどで既に終了している場合にスローされる
-                    Debug.WriteLine("Error: " + Exception.Message);
-                }
-            }
-        }
-
-        /// <summary>
         /// Process.OutputDataReceived のイベントハンドラー。 
         // 行が出力されるたびに呼び出されます。
         /// </summary>
@@ -257,6 +231,32 @@
                              "経過時間: " + Math.Round((this.Apache.ExitTime - this.Apache.StartTime).TotalMilliseconds) + "ms");
 
                 Application.Current.Properties["Log"] = this.Log;
+            }
+        }
+
+        /// <summary>
+        /// System.Windows.Application.Exit イベント を発生させます。
+        /// </summary>
+        /// <param name="e">イベントデータ を格納している ExitEventArgs</param>
+        protected override void OnExit(ExitEventArgs e)
+        {
+            Debug.WriteLine("Event: OnExit");
+
+            base.OnExit(e);
+            if (this.notifyIcon != null && this.Apache != null)
+            {
+                this.notifyIcon.Dispose();
+
+                try
+                {
+                    // Apache を（強制的に）終了
+                    this.Apache.Kill();
+                }
+                catch (InvalidOperationException Exception)
+                {
+                    // Apache がエラーなどで既に終了している場合にスローされる
+                    Debug.WriteLine("Error: " + Exception.Message);
+                }
             }
         }
     }

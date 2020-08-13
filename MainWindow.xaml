@@ -7,6 +7,7 @@
         xmlns:MaterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:Dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+        Closing="CloseWindow"
                       
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="Segoe UI, Meiryo"
@@ -45,8 +46,11 @@
         </DataTemplate>
     </Controls:MetroWindow.IconTemplate>
 
-    <Dragablz:TabablzControl FixedHeaderCount="1" ConsolidateOrphanedItems="True" TextOptions.TextFormattingMode="Ideal">
-        <TabItem IsSelected="True">
+    <Dragablz:TabablzControl Name="TabControl"
+                             FixedHeaderCount="1"
+                             ConsolidateOrphanedItems="True"
+                             TextOptions.TextFormattingMode="Ideal">
+        <TabItem Name="SettingTab" IsSelected="True">
             <TabItem.Header>
                 <StackPanel Orientation="Horizontal" Margin="30, 0">
                     <Image Source="./Resources/Settings.png" Margin="0, 2, 12, 2"/>
@@ -141,7 +145,7 @@
                 </Label>
             </Grid>
         </TabItem>
-        <TabItem>
+        <TabItem Name="LogTab">
             <TabItem.Header>
                 <StackPanel Orientation="Horizontal" Margin="30, 0">
                     <Image Source="./Resources/Log.png" Margin="0, 4, 12, 4"/>
@@ -149,15 +153,23 @@
                 </StackPanel>
             </TabItem.Header>
             <Grid>
-                <ListBox Name="ListBox"
-                         SelectionMode="Extended"
-                         ContextMenu="{DynamicResource ListBoxMenu}"
-                         Padding="20, 16"
-                         FontFamily="Consolas, Meiryo"
-                         FontWeight="Bold"
-                         FontSize="13"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                         ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+                <ScrollViewer Name="ScrollViewer"
+                              Padding="20, 16"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Auto">
+                    <ListBox Name="ListBox"
+                             SelectionMode="Extended"
+                             ContextMenu="{DynamicResource ListBoxMenu}"
+                             FontFamily="Consolas, Meiryo"
+                             FontWeight="Bold"
+                             FontSize="13">
+                        <ListBox.Template>
+                            <ControlTemplate>
+                                <ItemsPresenter />
+                            </ControlTemplate>
+                        </ListBox.Template>
+                    </ListBox>
+                </ScrollViewer>
             </Grid>
         </TabItem>
     </Dragablz:TabablzControl>

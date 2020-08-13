@@ -2,6 +2,7 @@ namespace TVRemotePlus_Launcher
 {
     using System;
     using System.ComponentModel;
+    using System.Linq;
     using System.Windows;
 
     /// <summary>
@@ -65,9 +66,26 @@ namespace TVRemotePlus_Launcher
         /// <param name="e">イベントデータ</param>
         private void toolStripMenuItem_Open_Click(object sender, EventArgs e)
         {
-            // MainWindow を生成、表示
-            var window = new MainWindow();
-            window.Show();
+            // MainWindow が複数立ち上がるのを防ぐ
+            // 対象のウインドウが開かれているかを探す
+            var window = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+
+            if (window == null)
+            {
+                // MainWindow が開かれてなかったら開く
+                window = new MainWindow();
+                window.Show();
+            } else
+            {
+                // 既に開かれていたらアクティブにする
+                window.Activate();
+
+                // 最小化されてたら戻す
+                if (window.WindowState == WindowState.Minimized)
+                {
+                    window.WindowState = WindowState.Normal;
+                }
+            }
         }
 
         /// <summary>
