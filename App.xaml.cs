@@ -81,29 +81,48 @@ namespace TVRemotePlus_Launcher
             base.OnStartup(e);
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            // ---------- Apache の設定を取得 ----------
+			// ---------- Apache の設定を取得 ----------
 
-            // httpd.conf を開く
-            StreamReader sr = new StreamReader(this.CurrentFolder + "\\bin\\Apache\\conf\\httpd.conf", Encoding.GetEncoding("UTF-8"));
-            string httpd_conf = sr.ReadToEnd();
+			try
+            {
+                // httpd.conf を開く
+                StreamReader sr = new StreamReader(this.CurrentFolder + "\\bin\\Apache\\conf\\httpd.conf", Encoding.GetEncoding("UTF-8"));
+                string httpd_conf = sr.ReadToEnd();
 
-            // Apache の設定を取得
-            // Apache のサーバールート
-            Application.Current.Properties["ServerRoot"] = Regex.Match(httpd_conf, @"Define SRVROOT\s""(?<SRVROOT>.*)""").Groups["SRVROOT"].Value;
-            // Apache の html ルート (/htdocs 付き)
-            Application.Current.Properties["DocumentRoot"] = Application.Current.Properties["ServerRoot"].ToString().TrimEnd('/') + Regex.Match(httpd_conf, @"DocumentRoot ""\$\{SRVROOT\}(?<FOLDER>.*)""").Groups["FOLDER"].Value;
-            // Apache のローカル IP アドレス
-            Application.Current.Properties["ServerIP"] = Regex.Match(httpd_conf, @"Define SRVIP\s""(?<SRVIP>.*)""").Groups["SRVIP"].Value;
-            // Apache の HTTP ポート
-            Application.Current.Properties["ServerHTTPPort"] = Regex.Match(httpd_conf, @"Define HTTP_PORT\s""(?<HTTP_PORT>.*)""").Groups["HTTP_PORT"].Value;
-            // Apache の HTTPS ポート
-            Application.Current.Properties["ServerHTTPSPort"] = Regex.Match(httpd_conf, @"Define HTTPS_PORT\s""(?<HTTPS_PORT>.*)""").Groups["HTTPS_PORT"].Value;
+                // Apache の設定を取得
+                // Apache のサーバールート
+                Application.Current.Properties["ServerRoot"] = Regex.Match(httpd_conf, @"Define SRVROOT\s""(?<SRVROOT>.*)""").Groups["SRVROOT"].Value;
+                // Apache の html ルート (/htdocs 付き)
+                Application.Current.Properties["DocumentRoot"] = Application.Current.Properties["ServerRoot"].ToString().TrimEnd('/') + Regex.Match(httpd_conf, @"DocumentRoot ""\$\{SRVROOT\}(?<FOLDER>.*)""").Groups["FOLDER"].Value;
+                // Apache のローカル IP アドレス
+                Application.Current.Properties["ServerIP"] = Regex.Match(httpd_conf, @"Define SRVIP\s""(?<SRVIP>.*)""").Groups["SRVIP"].Value;
+                // Apache の HTTP ポート
+                Application.Current.Properties["ServerHTTPPort"] = Regex.Match(httpd_conf, @"Define HTTP_PORT\s""(?<HTTP_PORT>.*)""").Groups["HTTP_PORT"].Value;
+                // Apache の HTTPS ポート
+                Application.Current.Properties["ServerHTTPSPort"] = Regex.Match(httpd_conf, @"Define HTTPS_PORT\s""(?<HTTPS_PORT>.*)""").Groups["HTTPS_PORT"].Value;
 
-            Debug.WriteLine("ServerIP: " + Application.Current.Properties["ServerIP"]);
-            Debug.WriteLine("ServerHTTPPort: " + Application.Current.Properties["ServerHTTPPort"]);
-            Debug.WriteLine("ServerHTTPSPort: " + Application.Current.Properties["ServerHTTPSPort"]);
-            Debug.WriteLine("ServerRoot: " + Application.Current.Properties["ServerRoot"]);
-            Debug.WriteLine("DocumentRoot: " + Application.Current.Properties["DocumentRoot"]);
+                Debug.WriteLine("ServerIP: " + Application.Current.Properties["ServerIP"]);
+                Debug.WriteLine("ServerHTTPPort: " + Application.Current.Properties["ServerHTTPPort"]);
+                Debug.WriteLine("ServerHTTPSPort: " + Application.Current.Properties["ServerHTTPSPort"]);
+                Debug.WriteLine("ServerRoot: " + Application.Current.Properties["ServerRoot"]);
+                Debug.WriteLine("DocumentRoot: " + Application.Current.Properties["DocumentRoot"]);
+
+            }
+			catch (FileNotFoundException) // httpd.conf が存在しない
+			{
+                // エラーダイアログ
+                var dialog = new TaskDialog();
+                dialog.Caption = "エラー";
+                dialog.InstructionText = "サーバー (Apache) の設定ファイルが存在しません";
+                dialog.Text = "httpd.conf が存在しません。TVRemotePlus が正常にインストールされていない可能性があります。";
+                dialog.Icon = TaskDialogStandardIcon.Error;
+                dialog.StandardButtons = TaskDialogStandardButtons.Ok;
+                dialog.Show();
+
+                // 現在のアプリケーションを終了
+                Application.Current.Shutdown();
+                return;
+            }
 
             // タスクトレイにアイコンを表示
             // Apache の設定が格納されるのを待ってから
