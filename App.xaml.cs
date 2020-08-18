@@ -81,9 +81,9 @@ namespace TVRemotePlus_Launcher
             base.OnStartup(e);
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-			// ---------- Apache の設定を取得 ----------
+            // ---------- Apache の設定を取得 ----------
 
-			try
+            try
             {
                 // httpd.conf を開く
                 StreamReader sr = new StreamReader(this.CurrentFolder + "\\bin\\Apache\\conf\\httpd.conf", Encoding.GetEncoding("UTF-8"));
@@ -108,8 +108,8 @@ namespace TVRemotePlus_Launcher
                 Debug.WriteLine("DocumentRoot: " + Application.Current.Properties["DocumentRoot"]);
 
             }
-			catch (FileNotFoundException) // httpd.conf が存在しない
-			{
+            catch (FileNotFoundException) // httpd.conf が存在しない
+            {
                 // エラーダイアログ
                 var dialog = new TaskDialog();
                 dialog.Caption = "エラー";
