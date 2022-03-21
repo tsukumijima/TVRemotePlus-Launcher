@@ -4,7 +4,7 @@
 TVRemotePlus を起動するためのランチャーアプリです。C# (WPF) で構築されています。
 
 TVRemotePlus の起動中、サーバー (Apache) のコンソールウインドウがずっとタスクバーに居座ってしまう問題を解消するために開発されました。  
-起動するとタスクトレイに格納され、Apache はバックグラウンドで実行されます。  
+起動するとタスクトレイに格納され、Apache はバックグラウンドで実行されます。
 
 ## Usage
 
@@ -20,7 +20,7 @@ TVRemotePlus.exe をダブルクリックして起動すると、タスクトレ
 
 [サーバー (Apache) の設定] をクリックすると、設定ウインドウが表示されます。  
 
-\[設定] タブではサーバーの設定を行えるようにする予定ですが、現時点ではこの画面からの設定変更はできません。  
+\[設定] タブではサーバーの設定を確認できます。この画面からの設定変更はできません。  
 サーバーの設定を編集する場合は TVRemotePlus をインストールしたフォルダの bin/Apache/conf/httpd.conf を手動で編集してください。  
 
 ![Screenshot](https://user-images.githubusercontent.com/39271166/90086201-d6dcb000-dd54-11ea-9961-de63909c43c3.png)
@@ -36,4 +36,4 @@ TVRemotePlus.exe をダブルクリックして起動すると、タスクトレ
 
 本体のライセンスに準じます。
 
-[MIT License](LICENSE.txt)
+[MIT License](License.txt)
